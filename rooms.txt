@@ -1,0 +1,16 @@
+Room 100 with 1 beds
+
+Room 200 with 2 beds
+
+Room 300 with 3 beds
+
+Room 400 with 2 beds
+
+Room 500 with 2 beds
+
+Room 600 with 3 beds
+
+Room 700 with 2 beds
+
+Room 800 with 1 beds
+
