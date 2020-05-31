@@ -406,7 +406,7 @@ void Manager::checkin(unsigned rn, const Date& d1, const Date& d2, const char* n
 		return;
 	}
 
-	if (guests == 0)
+	if (guests == 0 || guests < -1)
 	{
 		std::cerr << "I can't check in 0 guests!\n";
 		return;
@@ -414,7 +414,7 @@ void Manager::checkin(unsigned rn, const Date& d1, const Date& d2, const char* n
 
 	for (auto& x : rooms)
 	{
-		if (x->getRoomNumber() == rn)
+		if (x->getRoomNumber() == rn )
 		{
 			if (!x->addReservation(d1, d2, note, guests)) 
 			{
@@ -440,6 +440,12 @@ void Manager::checkin(unsigned rn, const Date& d1, const Date& d2, const char* n
 
 void Manager::availabilty(const Date& d)
 {
+	if (!d.isValidDate())
+	{
+		std::cerr << "Enter valid future dates, from which the first one is before the second one!\n";
+		return;
+	}
+
 	for (auto x : rooms)
 	{
 		if (x->getAvailabilityAt(d))
@@ -676,4 +682,6 @@ void Manager::unavailable(unsigned int rn, const Date& d1, const Date& d2, const
 			return;
 		}
 	}
+
+	std::cout << "This room doesn't exist!\n";
 }
