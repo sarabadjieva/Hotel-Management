@@ -108,14 +108,14 @@ void Manager::open()
 	file.open(fileName);
 	if (!file)
 	{
-		std::cerr << "File couldn’t be opened!\n";
+		std::cerr << "File couldnâ€™t be opened!\n";
 		callManager();
 	}
 
 	std::ofstream temp(tempName);
 	if (!temp.is_open())
 	{
-		std::cerr << "Temporary file couldn’t be opened!\n";
+		std::cerr << "Temporary file couldnâ€™t be opened!\n";
 		callManager();
 	}
 
@@ -400,6 +400,12 @@ void Manager::workwithfile()
 
 void Manager::checkin(unsigned rn, const Date& d1, const Date& d2, const char* note, int guests)
 {
+	if (!d1.isValidDate() || d1 < Date() || !d2.isValidDate() || d2 < Date() || d1 > d2)
+	{
+		std::cerr << "Enter valid future dates, from which the first one is before the second one!\n";
+		return;
+	}
+
 	if (guests == 0)
 	{
 		std::cerr << "I can't check in 0 guests!\n";
@@ -461,6 +467,12 @@ void Manager::checkout(unsigned rn)
 
 void Manager::report(const Date& d1, const Date& d2)
 {
+	if (!d1.isValidDate() || d1 < Date() || !d2.isValidDate() || d2 < Date() || d1 > d2)
+	{
+		std::cerr << "Enter valid future dates, from which the first one is before the second one!\n";
+		return;
+	}
+
 	bool foundReserved = false;
 	for (auto x : rooms)
 	{
@@ -479,11 +491,12 @@ void Manager::report(const Date& d1, const Date& d2)
 
 bool Manager::find(short unsigned b, const Date& d1, const Date& d2)
 {
-	if (d1 > d2)
+	if (!d1.isValidDate() || d1 < Date() || !d2.isValidDate() || d2 < Date() || d1 > d2)
 	{
-		std::cerr << "The second date must be after the first one!\n";
-		return false;
+		std::cerr << "Enter valid future dates, from which the first one is before the second one!\n";
+		return;
 	}
+
 	std::vector<Date> interval = getDatesBetween(d1, d2);
 	std::vector<Room> good;
 	bool foundEqual = false;
@@ -532,6 +545,12 @@ bool Manager::find(short unsigned b, const Date& d1, const Date& d2)
 
 void Manager::find_(short unsigned g, const Date& d1, const Date& d2)
 {
+	if (!d1.isValidDate() || d1 < Date() || !d2.isValidDate() || d2 < Date() || d1 > d2)
+	{
+		std::cerr << "Enter valid future dates, from which the first one is before the second one!\n";
+		return;
+	}
+
 	std::vector<Room* > roomsForTheVIP;
 	
 	//check which rooms have enough beds
@@ -643,6 +662,12 @@ void Manager::find_(short unsigned g, const Date& d1, const Date& d2)
 
 void Manager::unavailable(unsigned int rn, const Date& d1, const Date& d2, const char* note)
 {
+	if (!d1.isValidDate() || d1 < Date() || !d2.isValidDate() || d2 < Date() || d1 > d2)
+	{
+		std::cerr << "Enter valid future dates, from which the first one is before the second one!\n";
+		return;
+	}
+
 	for (auto x : rooms)
 	{
 		if (x->getRoomNumber() == rn)
