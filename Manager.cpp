@@ -14,6 +14,14 @@ Manager::Manager(const char* f)
 	strcpy_s(tempName, FILENAME_MAX, TEMPORARY_FILE);
 }
 
+Manager::~Manager()
+{
+	for (auto& x : rooms)
+	{
+		delete x;
+	}
+}
+
 void Manager::readRooms()
 {
 	if (!rooms.empty())
@@ -495,12 +503,12 @@ void Manager::report(const Date& d1, const Date& d2)
 	}
 }
 
-bool Manager::find(short unsigned b, const Date& d1, const Date& d2)
+bool Manager::find(short unsigned g, const Date& d1, const Date& d2)
 {
 	if (!d1.isValidDate() || d1 < Date() || !d2.isValidDate() || d2 < Date() || d1 > d2)
 	{
 		std::cerr << "Enter valid future dates, from which the first one is before the second one!\n";
-		return;
+		return false;
 	}
 
 	std::vector<Date> interval = getDatesBetween(d1, d2);
@@ -519,12 +527,12 @@ bool Manager::find(short unsigned b, const Date& d1, const Date& d2)
 			}
 		}
 
-		if (b == x->getBeds() && free)
+		if (g == x->getBeds() && free)
 		{
 			foundEqual = true;
 			good.push_back(*x);
 		}
-		else if (b < x->getBeds() && free)
+		else if (g < x->getBeds() && free)
 		{
 			good.push_back(*x);
 		}
@@ -532,10 +540,10 @@ bool Manager::find(short unsigned b, const Date& d1, const Date& d2)
 	
 	if (good.size() == 0) return false;
 
-	std::cout << "The rooms I can check in for " << b << " guests are:";
+	std::cout << "The rooms I can check in for " << g << " guests are:";
 	for (auto x : good)
 	{
-		if (foundEqual && x.getBeds() == b)
+		if (foundEqual && x.getBeds() == g)
 		{
 			std::cout<<DELIMITER << x.getRoomNumber();
 		}
