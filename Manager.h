@@ -15,6 +15,7 @@ private:
 
 public:
 	Manager(const char* f = nullptr);
+	~Manager();
 
 	void readRooms();
 	void writeRooms();
